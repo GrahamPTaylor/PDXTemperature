@@ -1,3 +1,5 @@
+setwd('G:/My Drive/Old Computer/ops')
+
 library(ggplot2)
 library(dplyr)
 
@@ -67,6 +69,8 @@ PastLows <- Past %>%
   group_by(newDay) %>%
   summarise(Pastlow = min(Temp)) # identify lowest temp for each day from 1995-2013
 
+
+
 # create dataframe that identifies the days in 2014 in which the temps were lower than all previous 19 years
 PresentLows <- Present %>%
   left_join(PastLows) %>%  # merge historical lows to current year low data
@@ -84,7 +88,7 @@ PresentHighs <- Present %>%
   mutate(record = ifelse(Temp>Pasthigh, "Y", "N")) %>% # identifies if current year was record high
   filter(record == "Y")  # filter for days that represent current year record highs
 
-head(PresentHighs)
+
 
 # function to turn y-axis labels into degree formatted values
 dgr_fmt <- function(x, ...) {
@@ -164,5 +168,37 @@ p <- p +
                                 "May", "June", "July", "August", "September",
                                 "October", "November", "December"))
 
-p
+# add labels and legends
+
+
+p <- p +
+  ggtitle("Portland's Weather in 2018") +
+  theme(plot.title=element_text(face="bold",hjust=.012,vjust=.8,colour="#3C3C3C",size=20)) +
+  annotate("text", x = 19, y = 98, label = "Temperature", size=4, fontface="bold")
+
+
+
+p <- p +
+  annotate("text", x = 66, y = 93, 
+           label = "Data represents average daily temperatures. Accessible data dates back to", size=3, colour="gray30") +
+  annotate("text", x = 62, y = 89, 
+           label = "January 1, 1985. Data for 2018 is only available through December 16.", size=3, colour="gray30") 
+
+
+
+# explain data layers
+
+
+p <- p +
+  annotate("segment", x = 181, xend = 181, y = 5, yend = 25, colour = "wheat2", size=3) +
+  annotate("segment", x = 181, xend = 181, y = 12, yend = 18, colour = "wheat4", size=3) +
+  geom_line(data=legend_data, aes(x=x,y=y)) +
+  annotate("segment", x = 183, xend = 185, y = 17.7, yend = 17.7, colour = "wheat4", size=.5) +
+  annotate("segment", x = 183, xend = 185, y = 12.2, yend = 12.2, colour = "wheat4", size=.5) +
+  annotate("segment", x = 185, xend = 185, y = 12.2, yend = 17.7, colour = "wheat4", size=.5) +
+  annotate("text", x = 196, y = 14.75, label = "NORMAL RANGE", size=2, colour="gray30") +
+  annotate("text", x = 162, y = 14.75, label = "2014 TEMPERATURE", size=2, colour="gray30") +
+  annotate("text", x = 193, y = 25, label = "RECORD HIGH", size=2, colour="gray30") +
+  annotate("text", x = 193, y = 5, label = "RECORD LOW", size=2, colour="gray30")
+
 
