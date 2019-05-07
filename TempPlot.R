@@ -1,5 +1,3 @@
-setwd('G:/My Drive/Old Computer/ops')
-
 library(ggplot2)
 library(dplyr)
 
