@@ -1,5 +1,3 @@
-setwd('G:/My Drive/Old Computer/ops')
-
 library(ggplot2)
 library(dplyr)
 
@@ -71,7 +69,7 @@ PastLows <- Past %>%
 
 
 
-# create dataframe that identifies the days in 2014 in which the temps were lower than all previous 19 years
+# create dataframe that identifies the days in 2014 in which the temps were lower than all previou years
 PresentLows <- Present %>%
   left_join(PastLows) %>%  # merge historical lows to current year low data
   mutate(record = ifelse(Temp<Pastlow, "Y", "N")) %>% # identifies if current year was record low
@@ -80,9 +78,9 @@ PresentLows <- Present %>%
 # create dataframe that represents the highest temp for each day for the historical data
 PastHighs <- Past %>%
   group_by(newDay) %>%
-  summarise(Pasthigh = max(Temp))  # identify highest temp for each day from 1995-2013
+  summarise(Pasthigh = max(Temp))  # identify highest temp for each day from 1985-2017
 
-# create dataframe that identifies the days in 2014 in which the temps were higher than all previous 19 years
+# create dataframe that identifies the days in 2018 in which the temps were higher than all previous years
 PresentHighs <- Present %>%
   left_join(PastHighs) %>%  # merge historical highs to current year low data
   mutate(record = ifelse(Temp>Pasthigh, "Y", "N")) %>% # identifies if current year was record high
@@ -98,7 +96,7 @@ dgr_fmt <- function(x, ...) {
 # create y-axis variable
 a <- dgr_fmt(seq(-20,100, by=10))
 
-# create a small dataframe to represent legend symbol for 2014 Temperature
+# create a small dataframe to represent legend symbol for 2018 Temperature
 legend_data <- data.frame(x=seq(175,182),y=rnorm(8,15,2))
 
 
